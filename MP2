@@ -1,0 +1,344 @@
+import java.util.Scanner;
+
+public class MP2TN210 {
+    
+    public static void main(String[] args) {
+          Scanner sc = new Scanner(System.in);
+        boolean exitProgram = false;
+
+        // main menu
+        while (!exitProgram) {
+            System.out.println("\nMain Menu:");
+            System.out.println("1. Program 1: Student Grade Management System");
+            System.out.println("2. Program 2: Employee Attendance Management System");
+            System.out.println("3. Program 3: Inventory Management System for a Store");
+            System.out.println("4. Program 4: Library Book Management System");
+            System.out.println("5. Program 5: Airline Reservation System");
+            System.out.println("6. About -> ");
+            System.out.println("7. Exit");
+            System.out.print("Enter your choice: ");
+            
+            int choice = sc.nextInt();
+
+            switch (choice) {
+                case 1 -> studentGradeManagementSystem(sc); // call program 1
+                case 2 -> attendanceManagementSystem(sc); // call program 2
+                case 3 -> inventoryManagementSystem(sc); // call program 3
+                case 4 -> libraryBookManagementSystem(sc); // call program 4
+                case 5 -> airlineReservationSystem(sc); // call program 5
+                case 6 -> {
+                    System.out.println("MP2: GROUP 10");
+                    System.out.println("Rafael Esteban");
+                    System.out.println("Dwayne Mongaya");
+                    System.out.println("Jasmin Obligado");
+                   }
+                case 7 -> {
+                    exitProgram = true;
+                    System.out.println("Program ends here...");
+                   }
+                default -> System.out.println("Invalid choice, please try again.");
+            }
+        }
+
+        sc.close();
+    }
+
+    // program 1
+    public static void studentGradeManagementSystem(Scanner scanner) {
+        boolean tryAgain;
+        do {
+            tryAgain = false;
+
+            System.out.println("Student Management System");            
+            System.out.print("Number of Students: ");
+            int studentsNum = scanner.nextInt();
+            System.out.print("Number of Grades per Student: ");
+            int gradesNum = scanner.nextInt();
+            
+            double[] ave = new double[studentsNum];
+            String[] status = new String[studentsNum];
+            
+            System.out.println("Grades Input: ");
+            // Loop for students
+            for (int i = 0; i < studentsNum; i++) {
+                System.out.print("Student " + (i + 1) + ": ");
+                double total = 0;
+                // Loop for entering grades
+                for (int j = 0; j < gradesNum; j++) {
+                    int grade;
+                    while (true) {
+                        grade = scanner.nextInt();
+                        if (grade >= 0) {
+                            break;
+                        } else {
+                            System.out.print("Please enter a non-negative grade: ");
+                        }
+                    }
+                    total += grade;
+                }
+                // Calculate of ave grade
+                ave[i] = total / gradesNum;
+                // Passing criteria
+                status[i] = (ave[i] >= 60) ? "Passed" : "Failed";
+            }
+            
+            System.out.println("Expected Output:");
+            for (int i = 0; i < studentsNum; i++) {
+                System.out.printf("Student %d: Average %.2f, Status: %s%n", (i + 1), ave[i], status[i]);
+            }
+            
+            System.out.print("Comments/s: ");
+            scanner.nextLine();  // Consume the leftover newline character
+            String comment = scanner.nextLine();
+            System.out.println("Your Comment: " + comment);           
+
+        } while (tryAgain);
+    }
+    
+    // program 2
+    public static void attendanceManagementSystem(Scanner sc) {
+        System.out.println("=== Welcome to Employee Attendance Management System! ===");
+
+        System.out.print("Enter number of Employees: ");
+        int numEmployees = sc.nextInt();
+        System.out.print("Enter number of Days: ");
+        int numDays = sc.nextInt();
+
+        int[][] attendance = new int[numEmployees][numDays]; // array to store attendance
+        double[] attendancePercentage = new double[numEmployees]; // array to store attendance percentage
+
+        for (int i = 0; i < numEmployees; i++) {
+            System.out.println("Enter attendance for Employee " + (i + 1) + " (1 = present, 0 = absent): ");
+            int presentDays = 0; // track number of present days
+            for (int j = 0; j < numDays; j++) {
+                attendance[i][j] = sc.nextInt(); // get attendance for each day
+                presentDays += attendance[i][j]; // add to present days
+            }
+            attendancePercentage[i] = (double) presentDays / numDays * 100; // calculation for attendance percentage
+        }
+
+        System.out.println("\nAttendance Report: ");
+        for (int i = 0; i < numEmployees; i++) {
+            String status = (attendancePercentage[i] >= 75) ? "Regular" : "Irregular"; // check attendance status
+            System.out.println("Employee " + (i + 1) + ": Attendance " + attendancePercentage[i] + "%, Status: " + status);
+        }
+    }
+        
+    // program 3
+    public static void inventoryManagementSystem(Scanner sc) {
+        int numProducts;
+
+        System.out.println("\n----------------------------------------------");
+        System.out.println("Inventory Management System for a Store");
+        System.out.println("----------------------------------------------");
+
+        System.out.print("Number of products: ");
+        numProducts = sc.nextInt();
+
+        String[] name = new String[numProducts];
+        double[] price = new double[numProducts];
+        int[] units = new int[numProducts];
+        int buyItem;
+
+        for (int i = 0; i < numProducts; i++) {
+
+            System.out.println("\nProduct " + (i + 1));
+            System.out.print("Enter Product Name: ");
+            name[i] = sc.next();
+            System.out.print("Enter Product Price: $");
+            price[i] = sc.nextDouble();
+            System.out.print("Enter Product Units: ");
+            units[i] = sc.nextInt();
+
+        }
+
+        System.out.println("\n-----------Transactions-----------");
+
+        for (int i = 0; i < numProducts; i++) {
+
+            System.out.print("Purchase " + name[i] + ": ");
+            buyItem = sc.nextInt();
+
+            if (buyItem <= units[i]) {
+                System.out.println("Purchased " + buyItem + " " + name[i]);
+                units[i] = units[i] - buyItem;
+            } else {
+                System.out.println("Insufficient stock for " + name[i] + " (only " + units[i] + " units available)");
+            }
+
+        }
+
+        for (int i = 0; i < numProducts; i++) {
+            System.out.println("\n----------------Product Stock----------------");
+            System.out.println("Updated stock list:");
+            System.out.println(name[i] + " stock: " + units[i]);
+
+            if (units[i] <= 3) {
+                System.out.println("\nWarning:");
+                System.out.println(name[i] + " stock is low (" + units[i] + " units available)");
+            }
+            
+        }
+        
+    }
+        // program 4
+        public static void libraryBookManagementSystem(Scanner scanner) {
+        System.out.println("Library Book Management System");
+        System.out.print("Number of Books: ");
+        int booksNum = scanner.nextInt();
+        scanner.nextLine(); // Consume the newline
+        String[] titles = new String[booksNum];
+        String[] authors = new String[booksNum];
+        int[] quantity = new int[booksNum];
+        System.out.println("Book Details: ");
+        for (int i = 0; i < booksNum; i++) {
+            System.out.println("Book " + (i + 1) + ": ");
+            System.out.print("Title: ");
+            titles[i] = scanner.nextLine();
+            System.out.print("Author: ");
+            authors[i] = scanner.nextLine();
+            System.out.print("Quantity: ");
+            quantity[i] = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline
+        }
+        for (int i = 0; i < booksNum; i++) {
+            System.out.println("Book Details: ");
+            System.out.println("Book " + (i + 1) + ": \"" + titles[i] + "\" by \"" + authors[i] + "\", " + quantity[i] + " units");
+        }
+        while (true) {
+            System.out.println("\nTransactions: ");
+            System.out.println("[1] Borrow Book");
+            System.out.println("[2] Return Book");
+            System.out.println("[3] Check Library");
+            System.out.println("[4] Exit");
+            System.out.print("Enter option: ");
+            int opt = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline
+            boolean found = false;
+            switch (opt) {
+                case 1:
+                    System.out.print("Enter title of book: ");
+                    String titleBorrow = scanner.nextLine();
+                    for (int i = 0; i < titles.length; i++) {
+                        if (titleBorrow.equalsIgnoreCase(titles[i])) {
+                            found = true;
+                            if (quantity[i] > 0) {
+                                quantity[i]--;
+                                System.out.println("You have successfully borrowed " + titles[i]);
+                                System.out.println("Available: " + quantity[i] + " unit/s");
+                            } else {
+                                System.out.println(titles[i] + " is out of stock.");
+                            }
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        System.out.println(titleBorrow + " does not exist in the library.");
+                    }
+                    break;
+                case 2:
+                    System.out.print("Enter title of book: ");
+                    String titleReturn = scanner.nextLine();
+                    for (int i = 0; i < titles.length; i++) {
+                        if (titleReturn.equalsIgnoreCase(titles[i])) {
+                            found = true;
+                            quantity[i]++; // Always allow returns
+                            System.out.println("You have successfully returned " + titles[i]);
+                            System.out.println("Available: " + quantity[i] + " unit/s");
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        System.out.println(titleReturn + " does not exist in the library.");
+                    }
+                    break;
+                case 3:
+                    System.out.println("Library Status: ");
+                    for (int i = 0; i < booksNum; i++) {
+                        System.out.println(titles[i] + ": " + quantity[i] + " unit/s available");
+                    }
+                    break;
+                case 4:
+                    System.out.print("Comments: ");
+                    String comment = scanner.nextLine();
+                    System.out.println("Ending transactions...");
+                    return;
+                default:
+                    System.out.println("Invalid option. Try again.");
+                    break;
+            }
+        }
+            
+        }
+        
+         // program 5
+        public static void airlineReservationSystem(Scanner scanner){
+            
+        // This is a user input for the total number of seats
+        System.out.print("Enter total number of seats: ");
+        int totalSeats = scanner.nextInt();
+        boolean[] seats = new boolean[totalSeats];  
+ 
+        while (true) {
+            System.out.println("\n1. Book a seat");
+            System.out.println("2. Cancel a reservation");
+            System.out.println("3. Check seat availability");
+            System.out.println("4. Exit");
+            System.out.print("Choose an operation: ");
+            int choice = scanner.nextInt();
+ 
+            if (choice == 1) {
+                // This is for booking a seat
+                System.out.print("Enter seat number to book: ");
+                int seatNumber = scanner.nextInt();
+ 
+                if (seatNumber < 1 || seatNumber > totalSeats) {
+                    System.out.println("Invalid seat number for booking");
+                } else if (seats[seatNumber - 1]) {
+                    System.out.println("Seat " + seatNumber + " is already booked");
+                } else {
+                    seats[seatNumber - 1] = true;
+                    System.out.println("Seat " + seatNumber + " successfully booked");
+                }
+ 
+            } else if (choice == 2) {
+                // This is for canceling a reservation
+                System.out.print("Enter seat number to cancel: ");
+                int seatNumber = scanner.nextInt();
+ 
+                if (seatNumber < 1 || seatNumber > totalSeats) {
+                    System.out.println("Invalid seat number for cancellation");
+                } else if (!seats[seatNumber - 1]) {
+                    System.out.println("Seat " + seatNumber + " is not booked yet");
+                } else {
+                    seats[seatNumber - 1] = false;
+                    System.out.println("Seat " + seatNumber + " reservation cancelled");
+                }
+ 
+            } else if (choice == 3) {
+                // This is to check if the seat is available 
+                int availableSeats = 0;
+                for (int i = 0; i < totalSeats; i++) {
+                    if (!seats[i]) {
+                        availableSeats++;
+                    }
+                }
+                System.out.println("Available seats: " + availableSeats + "/" + totalSeats);
+ 
+            } else if (choice == 4) {
+                // Exit the program
+                System.out.println("Exiting...");
+                break;
+ 
+            } else {
+                System.out.println("Invalid option. Please try again.");
+            }
+        }
+    }
+    
+}
+
+
+            
+        
+     
