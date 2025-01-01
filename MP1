@@ -1,0 +1,207 @@
+import java.util.Scanner;
+/**
+ *
+ * @author 202312049
+ */
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        do{
+        System.out.println("------ Machine Problem 1 ------");
+        System.out.println("Choose: ");
+        System.out.println("A - Retail Inventory Management System");
+        System.out.println("B - Payroll System");
+        System.out.println("X - Exit");
+        
+        
+        
+        System.out.print("Choice: ");
+        char choice = sc.next().charAt(0);
+        
+        switch(choice){
+            case 'A':
+            case 'a':
+                int quantity = 0;
+                String name = null;
+                int price = 0;
+                boolean loop = true;
+                boolean empty = true;
+
+                do{
+                    System.out.println("\n\n--------Menu--------");
+                    System.out.println("[1] ADD A NEW PRODUCT");
+                    System.out.println("[2] VIEW PRODUCT DETAILS");
+                    System.out.println("[3] UPDATE PRODUCT QUANTITY");
+                    System.out.println("[4] REMOVE PRODUCT");
+                    System.out.println("[5] EXIT");
+                    System.out.println("--------------------");
+                    System.out.print("Your choice: ");
+                    int option = sc.nextInt();
+
+                    switch(option){
+                    case 1:
+
+                        System.out.println("\n\n--------ADD NEW PRODUCT--------");
+
+                        System.out.print("Enter Product Name: ");
+                        name = sc.next();
+
+                        System.out.print("Enter Product Quantity: ");
+                        quantity = sc.nextInt();
+
+                        System.out.print("Enter Product Price: ");
+                        price = sc.nextInt();
+
+                        empty = false;
+
+                        System.out.println("\nProduct Added Successfully!");
+
+                        break;
+
+                    case 2:
+                        System.out.println("\n\n--------PRODUCT DETAILS--------");
+                        if(empty){
+                            System.out.println("No product found. Please add product first.");
+                        }else{
+                            System.out.println("Product Name: "+ name);
+                            System.out.println("Product Quantity: "+ quantity);
+                            System.out.println("Product Price: "+ price);
+                        }
+
+                        break;
+
+                    case 3:
+                        System.out.println("\n\n--------UPDATE THE PRODUCT QUANTITY--------");
+                        if(empty){
+                        System.out.println("No product found. Please add product first.");
+                        }else{
+                        System.out.print("Enter New Quantity: ");
+                        quantity = sc.nextInt();
+                        System.out.println("New Quantity: "+quantity);
+                        }
+
+
+                        break;
+
+                    case 4:
+                        System.out.println("\n\n--------REMOVE THE PRODUCT--------");
+                        if(empty){
+                        System.out.println("No product found. Please add product first.");
+                        }else{
+                            name = null;
+                            quantity = 0;
+                            price = 0;
+                            empty = true;
+                            System.out.println("Product removed successfully.");
+                        }
+                        break;
+
+                    case 5:
+                        System.out.println("Terminating...");
+                        loop = false;
+                        break;
+                        
+                        
+                    default:
+                        System.out.println("Input Valid Choice.");
+                        break;
+                    }
+                }while(loop);
+                break;
+
+
+
+                
+            case 'B':
+            case 'b':
+                double addAllowance = 0;
+                double minusDeduction = 0;
+                loop = true;
+
+                System.out.println("------ PAYROLL SYSTEM ------");
+                System.out.print("Enter User's Gross Salary: ");
+                double initialGrossSalary = sc.nextInt();
+                double grossSalary = initialGrossSalary;
+                do{
+                System.out.println("Choose: ");
+                System.out.println("1 - Gross Salary");
+                System.out.println("2 - Add Allowance");
+                System.out.println("3 - Deduct Taxes");
+                System.out.println("4 - Calculate Net Salary");
+                System.out.println("5 - Exit");
+
+                System.out.print("Choice: ");
+                int choice2 = sc.nextInt();
+
+                switch(choice2){
+                    case 1:
+                        System.out.printf("Current Gross Salary: $%.2f \n",grossSalary);
+                        break;
+                    case 2:
+                        System.out.print("Allowance: ");
+                        int add;
+
+                        do{ //input check
+                        add = sc.nextInt();
+                        if(add < 0){
+                            System.out.println("Invalid allowance amount. Please enter a positive amount");
+                        } 
+                        }while(add < 0);
+
+
+                        addAllowance += add;
+
+                        grossSalary += add;
+                        System.out.println("Allowance of $"+ add + " added successfully!");
+                        System.out.printf("New Gross Salary: $%.2f \n", grossSalary);
+
+                        break;
+                    case 3:
+                        System.out.print("Deduction: ");
+                        int minus;
+
+                        do{ //input check
+                        minus = sc.nextInt();
+                        if(minus < 0){
+                            System.out.println("Invalid deduction amount. Please enter a positive amount");
+                        } 
+                        }while(minus < 0);
+
+
+                        minusDeduction += minus;
+
+                        grossSalary -= minus;
+                        System.out.println("Deduction of $"+ minus+ " applied successfully!");
+                        System.out.printf("New Gross Salary: $%.2f \n", grossSalary);
+                        break;
+                    case 4:
+                        System.out.println("Calculating Net Salary...");
+                        System.out.printf("Gross Salary: $%.2f \n", initialGrossSalary);
+                        System.out.println("Total Allowances: $" + addAllowance);
+                        System.out.println("Total Deductions: $" + minusDeduction);
+                        System.out.printf("Net Salary: $%.2f \n", ((initialGrossSalary + addAllowance)- minusDeduction) );
+                        break;
+                    case 5:
+                        System.out.println("Exiting the system. Goodbye!");
+                        sc.close();
+                        loop = false;
+                        return;
+                    default:
+                        System.out.println("Invalid choice. Please select a valid option.");
+                        break;   
+                    }
+
+                }while(loop);
+
+            case 'X':
+            case 'x':
+                System.out.println("Exiting...");
+                sc.close();
+                return;
+        }
+        }while(true);
+        
+    }
+    
+}
